@@ -1,6 +1,7 @@
 require("dotenv").config({ path: "./.env" });
 const express = require("express");
 const app = express();
+const { genratatedError } = require("./middlewares/error");
 
 
 // logger
@@ -11,10 +12,12 @@ app.use(logger("tiny"));
 app.use("/", require("./routes/student"));
 
 // Error handling
+const ErorrHandler = require("./utlis/ErrorHandler");
 app.all("*", (req, res, next)=>{
-  
+    next(new ErorrHandler(`Request Url Not Found ${req.url}`, 404))
 })
 
+app.use(genratatedError)
 
 app.listen(
   process.env.PORT,

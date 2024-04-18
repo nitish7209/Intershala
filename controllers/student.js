@@ -1,4 +1,5 @@
-exports.homepages = (req, res, next) => {
+const { catchAsyncError } = require("../middlewares/catchAsyncErrors");
 
-    res.json({message: "Homepage"})
-}
+exports.homepages = catchAsyncError(async (req, res, next) => {
+  res.json({ message: "Homepage" });
+});
