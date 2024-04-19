@@ -1,4 +1,4 @@
-const mongoose = require(mongoose);
+const mongoose = require("mongoose");
 
 const studentModel = new mongoose.Schema(
   {
@@ -8,7 +8,6 @@ const studentModel = new mongoose.Schema(
       lowercase: true,
       unique: true,
       required: "Email address is required",
-      validate: [validateEmail, "Please fill a valid email address"],
       match: [
         /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
         "Please fill a valid email address",
@@ -16,10 +15,10 @@ const studentModel = new mongoose.Schema(
     },
     password: {
       type: String,
-      minlength: [6, "password should atlest 6 char"],
+      // minlength: [6, "password should atlest 6 char"],
       maxlength: [12, "password should not exced more than 15 char"],
       select: false,
-      match: [/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,1024}$/], //special/number/capital]
+      // match: [/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,1024}$/], //special/number/capital]
     },
   },
   {
