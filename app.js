@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 const { genratatedError } = require("./middlewares/error");
 
+// Database connections
+require("./models/database").connectDatabse()
 
 // logger
 const logger = require("morgan");
