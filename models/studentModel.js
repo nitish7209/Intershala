@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const studentModel = new mongoose.Schema(
   {
@@ -26,6 +27,23 @@ const studentModel = new mongoose.Schema(
   }
 );
 
-const student = mongoose.model("student", studentModel)
+//  this function will work before the save in studentsignup controller
+// & we can make the passward bcrypt using salt and hash
 
-module.exports = student
+studentModel.pre("save", function () {
+  if (!this.isModified("password")) {
+    return;
+  }
+  let salt = bcrypt.genSaltSync(10);
+  this.password = bcrypt.hashSync(this.password, salt);
+});
+
+// compare the password while we are signin the website
+
+studentModel.methods.comparepassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
+
+const student = mongoose.model("student", studentModel);
+
+module.exports = student;
