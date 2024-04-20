@@ -4,7 +4,13 @@ const ErorrHandler = require("../utlis/ErrorHandler");
 const { sendToken } = require("../utlis/sendToken");
 
 exports.homepages = catchAsyncError(async (req, res, next) => {
-  res.json({ message: "Homepage" });
+  res.json({ message: "Secure HomePage" });
+});
+
+
+exports.currentStudent = catchAsyncError(async (req, res, next) => {
+  const student = await studentModel.findById(req.id).exec()
+  res.json({ student});
 });
 
 exports.studentsignup = catchAsyncError(async (req, res, next) => {
@@ -26,4 +32,10 @@ exports.studentsignIn = catchAsyncError(async (req, res, next) => {
   if (!isMatchPasswaord) return next(new ErorrHandler("Worng Password"), 500);
 
   sendToken(student, 200, res)
+});
+
+
+exports.studentsignOut = catchAsyncError(async (req, res, next) => {
+    res.clearCookie("token");
+    res.json({message: 'Successfully SignOut!'})
 });
