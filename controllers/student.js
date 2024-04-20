@@ -1,14 +1,15 @@
 const { catchAsyncError } = require("../middlewares/catchAsyncErrors");
 const studentModel = require("../models/studentModel");
 const ErorrHandler = require("../utlis/ErrorHandler");
+const { sendToken } = require("../utlis/sendToken");
 
 exports.homepages = catchAsyncError(async (req, res, next) => {
   res.json({ message: "Homepage" });
 });
 
 exports.studentsignup = catchAsyncError(async (req, res, next) => {
-  const newstudent = await new studentModel(req.body).save();
-  res.status(201).json(newstudent);
+  const student = await new studentModel(req.body).save();
+  sendToken(student, 201, res)
 });
 
 exports.studentsignIn = catchAsyncError(async (req, res, next) => {
@@ -24,5 +25,5 @@ exports.studentsignIn = catchAsyncError(async (req, res, next) => {
 
   if (!isMatchPasswaord) return next(new ErorrHandler("Worng Password"), 500);
 
-  res.json(student);
+  sendToken(student, 200, res)
 });
